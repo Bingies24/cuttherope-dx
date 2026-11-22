@@ -1,4 +1,5 @@
 using CutTheRopeDX.Framework;
+using CutTheRopeDX.Framework.Core;
 using CutTheRopeDX.Framework.Helpers;
 using CutTheRopeDX.Framework.Media;
 using CutTheRopeDX.Framework.Physics;
@@ -15,6 +16,8 @@ namespace CutTheRopeDX.GameMain
         /// </summary>
         private void InitializeGameState()
         {
+            RootController root = Application.SharedRootController();
+            levelStars = PackConfig.GetLevelStars(root.Pack, root.Level);
             SoundMgr.EnableLoopedSounds(true);
             aniPool.RemoveAllChilds();
             particlesAniPool.RemoveAllChilds();
@@ -100,7 +103,7 @@ namespace CutTheRopeDX.GameMain
         private (GameObject candy, GameObject candyMain, GameObject candyTop, Animation candyBlink, Animation candyBubble, CandyInGhostBubbleAnimation candyGhostBubble) CreateCandyVisual()
         {
             // Get selected candy skin from preferences (0-50 for candy_01 to candy_51)
-            int selectedCandySkin = Framework.Core.Preferences.GetIntForKey("PREFS_SELECTED_CANDY");
+            int selectedCandySkin = Preferences.GetIntForKey("PREFS_SELECTED_CANDY");
             string candyResource = CandySkinHelper.GetCandyResource(selectedCandySkin);
 
             // Initialize main candy
@@ -214,7 +217,7 @@ namespace CutTheRopeDX.GameMain
             point.pos.Y = y;
             point.prevPos = point.pos;
 
-            int selectedCandySkin = Framework.Core.Preferences.GetIntForKey("PREFS_SELECTED_CANDY");
+            int selectedCandySkin = Preferences.GetIntForKey("PREFS_SELECTED_CANDY");
             string candyResource = CandySkinHelper.GetCandyResource(selectedCandySkin);
             GameObject visual = Image.InitializeFromResource(new GameObject(),
                 candyResource,
@@ -301,12 +304,28 @@ namespace CutTheRopeDX.GameMain
         /// </summary>
         private void InitializeHUDStars()
         {
-            for (int i = 0; i < 3; i++)
+            if (hudStar != null)
             {
-                Timeline currentTimeline = hudStar[i].GetCurrentTimeline();
-                currentTimeline?.StopTimeline();
+                for (int i = 0; i < hudStar.Length; i++)
+                {
+                    RemoveChild(hudStar[i]);
+                }
+            }
+            hudStar = new Animation[levelStars];
+            for (int i = 0; i < levelStars; i++)
+            {
                 const int HudUiStarFirstQuad = 1;
+                const int HudUiStarLastQuad = 11;
+                hudStar[i] = Image.InitializeFromResource(new Animation(), Resources.Img.HudUi);
                 hudStar[i].SetDrawQuad(HudUiStarFirstQuad);
+                _ = hudStar[i].AddAnimationDelayLoopFirstLast(0.05f, Timeline.LoopType.TIMELINE_NO_LOOP, HudUiStarFirstQuad, HudUiStarLastQuad);
+                hudStar[i].SetPauseAtIndexforAnimation(10, 0);
+                hudStarSlotWidth = hudStar[i].width;
+                hudStarSlotHeight = hudStar[i].height;
+                hudStar[i].anchor = 18;
+                hudStar[i].x = (hudStarSlotWidth * i) + (hudStarSlotWidth / 2);
+                hudStar[i].y = hudStarSlotHeight / 2;
+                _ = AddChild(hudStar[i]);
             }
             ResetTimeTravelHudStars();
         }

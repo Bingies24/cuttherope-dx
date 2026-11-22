@@ -54,6 +54,7 @@ namespace CutTheRopeDX.GameMain
     /// <param name="boxLabelText">Localization key for optional box label text.</param>
     /// <param name="packName">Localized box pack name.</param>
     /// <param name="ghostGrabColor">Optional ghost grab circle color override, or <see langword="null"/> to use the default.</param>
+    /// <param name="levelStars">Allowed stars to collect in each level.</param>
     internal sealed class PackDefinition(
         int unlockStars,
         int levelCount,
@@ -76,7 +77,8 @@ namespace CutTheRopeDX.GameMain
         Vector? earthBgPosition,
         string boxLabelText,
         string packName,
-        RGBAColor? ghostGrabColor
+        RGBAColor? ghostGrabColor,
+        int[] levelStars
     )
     {
         /// <summary>Number of stars required to unlock this pack.</summary>
@@ -153,6 +155,8 @@ namespace CutTheRopeDX.GameMain
 
         /// <summary>Optional ghost grab circle color override, or <see langword="null"/> to use the default.</summary>
         public RGBAColor? GhostGrabColor { get; } = ghostGrabColor;
+
+        public int[] LevelStars { get; } = levelStars;
     }
 
     /// <summary>
@@ -513,6 +517,11 @@ namespace CutTheRopeDX.GameMain
             return -1;
         }
 
+        public static int GetLevelStars(int pack, int level)
+        {
+            return pack >= 0 && pack < packs.Count ? packs[pack].LevelStars[level] : 3;
+        }
+
         /// <summary>
         /// Loads pack list entries from the master configuration file.
         /// </summary>
@@ -674,6 +683,14 @@ namespace CutTheRopeDX.GameMain
 
             RGBAColor? ghostGrabColor = ParseNullableColorProperty(packElement, "ghostGrabColor");
 
+            int[] levelStars = new int[levelCount];
+            int levelStarsDefault = ParseIntProperty(packElement, "levelStars", 3, packListEntry.ConfigFileName);
+
+            for (int i = 0; i < levelStars.Length; i++)
+            {
+                levelStars[i] = ParseIntProperty(packElement, "level" + (i + 1) + "Stars", levelStarsDefault, packListEntry.ConfigFileName);
+            }
+
             return new PackDefinition(
                 unlockStars,
                 levelCount,
@@ -696,7 +713,8 @@ namespace CutTheRopeDX.GameMain
                 earthBgPosition,
                 boxLabelText,
                 packName,
-                ghostGrabColor
+                ghostGrabColor,
+                levelStars
                 )
             {
                 TimeTravelSittingPlatform = ParseIntProperty(packElement, "ttSittingPlatform", -1, fileName),

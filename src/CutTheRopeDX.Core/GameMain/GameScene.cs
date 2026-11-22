@@ -293,7 +293,7 @@ namespace CutTheRopeDX.GameMain
             float hudScale = ContentScale;
             PlaceLevelLabel();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < levelStars; i++)
             {
                 hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
                 hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
@@ -1301,7 +1301,7 @@ namespace CutTheRopeDX.GameMain
         /// <summary>
         /// The HUD star animations that show collected stars.
         /// </summary>
-        private readonly Animation[] hudStar = new Animation[3];
+        private Animation[] hudStar;
 
         /// <summary>
         /// Width of one slot in the HUD star row, taken from the empty star frame.
@@ -1310,12 +1310,12 @@ namespace CutTheRopeDX.GameMain
         /// An icon's own width follows whichever frame it is drawing, and the fill animation's
         /// frames are trimmed narrower than the empty one, so the row cannot be spaced by it.
         /// </remarks>
-        private readonly int hudStarSlotWidth;
+        private int hudStarSlotWidth;
 
         /// <summary>
         /// Height of one slot in the HUD star row, taken from the empty star frame.
         /// </summary>
-        private readonly int hudStarSlotHeight;
+        private int hudStarSlotHeight;
 
         /// <summary>
         /// The gameplay camera.
@@ -1499,6 +1499,11 @@ namespace CutTheRopeDX.GameMain
             /// </summary>
             public RGBAColor c;
         }
+
+        /// <summary>
+        /// The total amount of stars the current level has.
+        /// </summary>
+        public int levelStars;
 
         // private sealed class SCandy : ConstrainedPoint
         // {
