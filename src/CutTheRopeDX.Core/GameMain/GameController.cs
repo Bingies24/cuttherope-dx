@@ -399,9 +399,9 @@ namespace CutTheRopeDX.GameMain
             star3.SetDrawQuad(result.StarsCollected > 2 ? 13 : 14);
             string clearText = result.StarsCollected switch
             {
-                1 => "LEVEL_CLEARED2",
-                2 => "LEVEL_CLEARED3",
-                3 => "LEVEL_CLEARED4",
+                int s when s >= gameScene.levelStars => "LEVEL_CLEARED4",
+                int s when s >= gameScene.levelStars * (2f / 3) => "LEVEL_CLEARED3",
+                int s when s >= gameScene.levelStars / 3 => "LEVEL_CLEARED2",
                 _ => "LEVEL_CLEARED1"
             };
             ((Text)boxOpenClose.result.GetChildWithName("passText")).SetString(Application.GetString(clearText));
