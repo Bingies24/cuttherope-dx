@@ -52,8 +52,8 @@ namespace CutTheRopeDX.Tests
             int[] original = new int[levels];
             for (int level = 0; level < levels; level++)
             {
-                original[level] = Preferences.GetStarsForPackLevel(slot, Pack, level);
-                Preferences.SetStarsForPackLevel(slot, 3, Pack, level);
+                original[level] = Preferences.GetEarnedStarsForPackLevel(slot, Pack, level);
+                Preferences.SetEarnedStarsForPackLevel(slot, 3, Pack, level);
             }
 
             try
@@ -73,7 +73,7 @@ namespace CutTheRopeDX.Tests
             {
                 for (int level = 0; level < levels; level++)
                 {
-                    Preferences.SetStarsForPackLevel(slot, original[level], Pack, level);
+                    Preferences.SetEarnedStarsForPackLevel(slot, original[level], Pack, level);
                 }
             }
         }

@@ -35,13 +35,13 @@ namespace CutTheRopeDX.Tests
             (GameController controller, GameScene scene, BoxOpenClose box, RootController root) = Load();
             int saveBox = root.Box;
             int originalScore = Preferences.GetScoreForPackLevel(saveBox, Pack, Level);
-            int originalStars = Preferences.GetStarsForPackLevel(saveBox, Pack, Level);
+            int originalStars = Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level);
             LevelResult result = LevelResultCalculator.Calculate(elapsedTime: 20f, starsCollected: 2);
 
             try
             {
                 Preferences.SetScoreForPackLevel(saveBox, 100, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, 1, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, 1, Pack, Level);
                 SetConflictingSceneResult(scene);
 
                 controller.LevelWon(result);
@@ -54,12 +54,12 @@ namespace CutTheRopeDX.Tests
                 Assert.True(box.shouldShowImprovedResult);
                 Assert.False(box.shouldShowConfetti);
                 Assert.Equal(result.FinalScore, Preferences.GetScoreForPackLevel(saveBox, Pack, Level));
-                Assert.Equal(result.StarsCollected, Preferences.GetStarsForPackLevel(saveBox, Pack, Level));
+                Assert.Equal(result.StarsCollected, Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level));
             }
             finally
             {
                 Preferences.SetScoreForPackLevel(saveBox, originalScore, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, originalStars, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, originalStars, Pack, Level);
             }
         }
 
@@ -69,25 +69,25 @@ namespace CutTheRopeDX.Tests
             (GameController controller, GameScene scene, BoxOpenClose box, RootController root) = Load();
             int saveBox = root.Box;
             int originalScore = Preferences.GetScoreForPackLevel(saveBox, Pack, Level);
-            int originalStars = Preferences.GetStarsForPackLevel(saveBox, Pack, Level);
+            int originalStars = Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level);
             LevelResult result = LevelResultCalculator.Calculate(elapsedTime: 20f, starsCollected: 2);
 
             try
             {
                 Preferences.SetScoreForPackLevel(saveBox, 4000, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, 3, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, 3, Pack, Level);
                 SetConflictingSceneResult(scene);
 
                 controller.LevelWon(result);
 
                 Assert.False(box.shouldShowImprovedResult);
                 Assert.Equal(4000, Preferences.GetScoreForPackLevel(saveBox, Pack, Level));
-                Assert.Equal(3, Preferences.GetStarsForPackLevel(saveBox, Pack, Level));
+                Assert.Equal(3, Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level));
             }
             finally
             {
                 Preferences.SetScoreForPackLevel(saveBox, originalScore, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, originalStars, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, originalStars, Pack, Level);
             }
         }
 
@@ -97,13 +97,13 @@ namespace CutTheRopeDX.Tests
             (GameController controller, GameScene scene, BoxOpenClose box, RootController root) = Load();
             int saveBox = root.Box;
             int originalScore = Preferences.GetScoreForPackLevel(saveBox, Pack, Level);
-            int originalStars = Preferences.GetStarsForPackLevel(saveBox, Pack, Level);
+            int originalStars = Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level);
             LevelResult result = LevelResultCalculator.Calculate(elapsedTime: 12.5f, starsCollected: 3);
 
             try
             {
                 Preferences.SetScoreForPackLevel(saveBox, 100, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, 1, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, 1, Pack, Level);
                 SetConflictingSceneResult(scene);
                 CustomLevelSession.Activate("controller-result-test.xml");
 
@@ -113,13 +113,13 @@ namespace CutTheRopeDX.Tests
                 Assert.Equal(Application.GetString("LEVEL_CLEARED4"), ((Text)box.result.GetChildWithName("passText")).GetString());
                 Assert.True(box.shouldShowConfetti);
                 Assert.Equal(100, Preferences.GetScoreForPackLevel(saveBox, Pack, Level));
-                Assert.Equal(1, Preferences.GetStarsForPackLevel(saveBox, Pack, Level));
+                Assert.Equal(1, Preferences.GetEarnedStarsForPackLevel(saveBox, Pack, Level));
             }
             finally
             {
                 CustomLevelSession.Clear();
                 Preferences.SetScoreForPackLevel(saveBox, originalScore, Pack, Level);
-                Preferences.SetStarsForPackLevel(saveBox, originalStars, Pack, Level);
+                Preferences.SetEarnedStarsForPackLevel(saveBox, originalStars, Pack, Level);
             }
         }
 

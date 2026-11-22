@@ -163,23 +163,46 @@ namespace CutTheRopeDX.Framework.Core
         }
 
         /// <summary>
-        /// Gets the number of stars earned for a specific level in a save slot.
+        /// Gets the number of earned stars for a specific level in a save slot.
         /// </summary>
         /// <param name="box">The save slot index.</param>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
         /// <returns>The number of stars earned.</returns>
+        public static int GetEarnedStarsForPackLevel(int box, int p, int l)
+        {
+            return GetBoxIntForKey(box, GetPackLevelKey("STARS_", p, l));
+        }
+
+        /// <summary>
+        /// Gets the number of earned stars for a specific level, using the pack's default save slot.
+        /// </summary>
+        /// <param name="p">The pack index.</param>
+        /// <param name="l">The level index within the pack.</param>
+        /// <returns>The number of stars earned.</returns>
+        public static int GetEarnedStarsForPackLevel(int p, int l)
+        {
+            return GetEarnedStarsForPackLevel(PackConfig.GetSaveSlot(p), p, l);
+        }
+
+        /// <summary>
+        /// Gets the number of total stars for a specific level in a save slot.
+        /// </summary>
+        /// <param name="box">The save slot index.</param>
+        /// <param name="p">The pack index.</param>
+        /// <param name="l">The level index within the pack.</param>
+        /// <returns>The number of stars the level has.</returns>
         public static int GetStarsForPackLevel(int box, int p, int l)
         {
             return GetBoxIntForKey(box, GetPackLevelKey("STARS_", p, l));
         }
 
         /// <summary>
-        /// Gets the number of stars earned for a specific level, using the pack's default save slot.
+        /// Gets the number of total stars for a specific level, using the pack's default save slot.
         /// </summary>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
-        /// <returns>The number of stars earned.</returns>
+        /// <returns>The number of stars the level has.</returns>
         public static int GetStarsForPackLevel(int p, int l)
         {
             return GetStarsForPackLevel(PackConfig.GetSaveSlot(p), p, l);
@@ -289,7 +312,7 @@ namespace CutTheRopeDX.Framework.Core
                 int levelsInPackCount = GetLevelsInPackCount(i);
                 while (j < levelsInPackCount)
                 {
-                    totalStars += GetStarsForPackLevel(box, i, j);
+                    totalStars += GetEarnedStarsForPackLevel(box, i, j);
                     j++;
                 }
                 i++;
@@ -409,7 +432,7 @@ namespace CutTheRopeDX.Framework.Core
             int levelsInPackCount = GetLevelsInPackCount(p);
             while (i < levelsInPackCount)
             {
-                if (GetStarsForPackLevel(box, p, i) < 3)
+                if (GetEarnedStarsForPackLevel(box, p, i) < 3)
                 {
                     return false;
                 }
@@ -495,26 +518,26 @@ namespace CutTheRopeDX.Framework.Core
         }
 
         /// <summary>
-        /// Sets the star count for a specific level in a save slot.
+        /// Sets the earned star count for a specific level in a save slot.
         /// </summary>
         /// <param name="box">The save slot index.</param>
         /// <param name="s">The number of stars to set.</param>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
-        public static void SetStarsForPackLevel(int box, int s, int p, int l)
+        public static void SetEarnedStarsForPackLevel(int box, int s, int p, int l)
         {
             SetBoxIntForKey(box, s, GetPackLevelKey("STARS_", p, l), true);
         }
 
         /// <summary>
-        /// Sets the star count for a specific level, using the pack's default save slot.
+        /// Sets the earned star count for a specific level, using the pack's default save slot.
         /// </summary>
         /// <param name="s">The number of stars to set.</param>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
-        public static void SetStarsForPackLevel(int s, int p, int l)
+        public static void SetEarnedStarsForPackLevel(int s, int p, int l)
         {
-            SetStarsForPackLevel(PackConfig.GetSaveSlot(p), s, p, l);
+            SetEarnedStarsForPackLevel(PackConfig.GetSaveSlot(p), s, p, l);
         }
 
         /// <summary>
@@ -530,7 +553,7 @@ namespace CutTheRopeDX.Framework.Core
             int levelsInPackCount = GetLevelsInPackCount(p);
             while (i < levelsInPackCount)
             {
-                starsInPack += GetStarsForPackLevel(box, p, i);
+                starsInPack += GetEarnedStarsForPackLevel(box, p, i);
                 i++;
             }
             return starsInPack;

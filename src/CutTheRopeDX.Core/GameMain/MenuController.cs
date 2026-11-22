@@ -1552,7 +1552,7 @@ namespace CutTheRopeDX.GameMain
                 return CreateTimeTravelLevelButton(l, p);
             }
             bool isLocked = Preferences.GetUnlockedForPackLevel(p, l) == UNLOCKEDSTATE.LOCKED;
-            int starsForPackLevel = Preferences.GetStarsForPackLevel(p, l);
+            int starsForPackLevel = Preferences.GetEarnedStarsForPackLevel(p, l);
             TouchBaseElement touchBaseElement = new()
             {
                 bbc = MakeRectangle(5f, 0f, -10f, 0f),

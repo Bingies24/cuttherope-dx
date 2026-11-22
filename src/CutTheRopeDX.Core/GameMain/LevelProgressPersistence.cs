@@ -11,9 +11,14 @@ namespace CutTheRopeDX.GameMain
         /// <param name="customLevelActive">Whether this process is running an externally supplied level.</param>
         /// <param name="newValue">Score or star count achieved in the completed level.</param>
         /// <param name="storedValue">Score or star count currently saved for the level.</param>
+        /// <param name="levelValue">The total amount of allowed stars in the level. Defaults to 0 to prevent breaking scores.</param>
         /// <returns><see langword="true"/> when the value should be persisted; otherwise <see langword="false"/>.</returns>
-        public static bool ShouldPersist(bool customLevelActive, int newValue, int storedValue)
+        public static bool ShouldPersist(bool customLevelActive, int newValue, int storedValue, int levelValue = 0)
         {
+            if (levelValue != 0)
+            {
+                storedValue = levelValue;
+            }
             return !customLevelActive && newValue > storedValue;
         }
     }
