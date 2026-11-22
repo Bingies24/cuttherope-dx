@@ -168,7 +168,7 @@ namespace CutTheRopeDX.Framework.Core
         /// <param name="box">The save slot index.</param>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
-        /// <returns>The number of stars earned (0–3).</returns>
+        /// <returns>The number of stars earned.</returns>
         public static int GetStarsForPackLevel(int box, int p, int l)
         {
             return GetBoxIntForKey(box, GetPackLevelKey("STARS_", p, l));
@@ -179,7 +179,7 @@ namespace CutTheRopeDX.Framework.Core
         /// </summary>
         /// <param name="p">The pack index.</param>
         /// <param name="l">The level index within the pack.</param>
-        /// <returns>The number of stars earned (0–3).</returns>
+        /// <returns>The number of stars earned.</returns>
         public static int GetStarsForPackLevel(int p, int l)
         {
             return GetStarsForPackLevel(PackConfig.GetSaveSlot(p), p, l);

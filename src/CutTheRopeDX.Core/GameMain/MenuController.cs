@@ -1576,10 +1576,13 @@ namespace CutTheRopeDX.GameMain
                 text.anchor = text.parentAnchor = 18;
                 text.y -= 5f;
                 _ = image.AddChild(text);
-                Image starsBadge = Image.FromResource(Resources.Img.MenuLevelUi, 2 + starsForPackLevel);
-                starsBadge.DoRestoreCutTransparency();
-                starsBadge.anchor = starsBadge.parentAnchor = 9;
-                _ = image.AddChild(starsBadge);
+                if (starsForPackLevel < 4)
+                {
+                    Image starsBadge = Image.FromResource(Resources.Img.MenuLevelUi, 2 + starsForPackLevel);
+                    starsBadge.DoRestoreCutTransparency();
+                    starsBadge.anchor = starsBadge.parentAnchor = 9;
+                    _ = image.AddChild(starsBadge);
+                }
             }
             image.anchor = image.parentAnchor = 18;
             _ = touchBaseElement.AddChild(image);
