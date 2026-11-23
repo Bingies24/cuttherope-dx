@@ -1552,7 +1552,8 @@ namespace CutTheRopeDX.GameMain
                 return CreateTimeTravelLevelButton(l, p);
             }
             bool isLocked = Preferences.GetUnlockedForPackLevel(p, l) == UNLOCKEDSTATE.LOCKED;
-            int starsForPackLevel = Preferences.GetEarnedStarsForPackLevel(p, l);
+            int earnedStarsForPackLevel = Preferences.GetEarnedStarsForPackLevel(p, l);
+            int starsForPackLevel = Preferences.GetStarsForPackLevel(p, l);
             TouchBaseElement touchBaseElement = new()
             {
                 bbc = MakeRectangle(5f, 0f, -10f, 0f),
@@ -1578,7 +1579,7 @@ namespace CutTheRopeDX.GameMain
                 _ = image.AddChild(text);
                 if (starsForPackLevel < 4)
                 {
-                    Image starsBadge = Image.FromResource(Resources.Img.MenuLevelUi, 2 + starsForPackLevel);
+                    Image starsBadge = Image.FromResource(Resources.Img.MenuLevelUi, 2 + earnedStarsForPackLevel);
                     starsBadge.DoRestoreCutTransparency();
                     starsBadge.anchor = starsBadge.parentAnchor = 9;
                     _ = image.AddChild(starsBadge);
