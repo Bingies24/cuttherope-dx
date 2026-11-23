@@ -412,7 +412,7 @@ namespace CutTheRopeDX.GameMain
             int scoreForPackLevel = Preferences.GetScoreForPackLevel(box, pack, level);
             int starsForPackLevel = Preferences.GetEarnedStarsForPackLevel(box, pack, level);
             boxOpenClose.shouldShowImprovedResult = false;
-            if (LevelProgressPersistence.ShouldPersist(CustomLevelSession.IsActive, result.FinalScore, scoreForPackLevel))
+            if (LevelProgressPersistence.ShouldPersistScore(CustomLevelSession.IsActive, result.FinalScore, scoreForPackLevel))
             {
                 Preferences.SetScoreForPackLevel(box, result.FinalScore, pack, level);
                 if (scoreForPackLevel > 0)
@@ -420,10 +420,10 @@ namespace CutTheRopeDX.GameMain
                     boxOpenClose.shouldShowImprovedResult = true;
                 }
             }
-            if (LevelProgressPersistence.ShouldPersist(CustomLevelSession.IsActive, result.StarsCollected, starsForPackLevel, gameScene.levelStars))
+            if (LevelProgressPersistence.ShouldPersistStars(CustomLevelSession.IsActive, result.StarsCollected, starsForPackLevel, gameScene.levelStars))
             {
                 Preferences.SetEarnedStarsForPackLevel(box, result.StarsCollected > gameScene.levelStars ? gameScene.levelStars : result.StarsCollected, pack, level);
-                if (starsForPackLevel > 0)
+                if (starsForPackLevel > 0 && starsForPackLevel != gameScene.levelStars)
                 {
                     boxOpenClose.shouldShowImprovedResult = true;
                 }

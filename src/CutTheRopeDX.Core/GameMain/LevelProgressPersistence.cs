@@ -6,20 +6,28 @@ namespace CutTheRopeDX.GameMain
     internal static class LevelProgressPersistence
     {
         /// <summary>
-        /// Determines whether a new score or star count should replace the stored one.
+        /// Determines whether a new score should replace the stored one.
         /// </summary>
         /// <param name="customLevelActive">Whether this process is running an externally supplied level.</param>
-        /// <param name="newValue">Score or star count achieved in the completed level.</param>
-        /// <param name="storedValue">Score or star count currently saved for the level.</param>
-        /// <param name="levelValue">The total amount of allowed stars in the level. Defaults to 0 to prevent breaking scores.</param>
+        /// <param name="newValue">Score achieved in the completed level.</param>
+        /// <param name="storedValue">Score currently saved for the level.</param>
         /// <returns><see langword="true"/> when the value should be persisted; otherwise <see langword="false"/>.</returns>
-        public static bool ShouldPersist(bool customLevelActive, int newValue, int storedValue, int levelValue = 0)
+        public static bool ShouldPersistScore(bool customLevelActive, int newValue, int storedValue)
         {
-            if (levelValue != 0)
-            {
-                storedValue = levelValue;
-            }
             return !customLevelActive && newValue > storedValue;
+        }
+
+        /// <summary>
+        /// Determines whether a new star count should replace the stored one.
+        /// </summary>
+        /// <param name="customLevelActive">Whether this process is running an externally supplied level.</param>
+        /// <param name="newValue">Star count achieved in the completed level.</param>
+        /// <param name="storedValue">Star count currently saved for the level.</param>
+        /// <param name="levelStars">Maximum stars you can collect in the level.</param>
+        /// <returns><see langword="true"/> when the value should be persisted; otherwise <see langword="false"/>.</returns>
+        public static bool ShouldPersistStars(bool customLevelActive, int newValue, int storedValue, int levelStars)
+        {
+            return !customLevelActive && (newValue > storedValue || newValue > levelStars);
         }
     }
 }

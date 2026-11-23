@@ -293,14 +293,20 @@ namespace CutTheRopeDX.GameMain
             float hudScale = ContentScale;
             PlaceLevelLabel();
 
-            for (int i = 0; i < levelStars; i++)
+            if (levelStars > 5)
             {
-                hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
-                hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
-                hudStar[i].scaleX = hudStar[i].scaleY = hudScale;
             }
-            LayOutTimeTravelHudStars();
-            UpdateBackgroundScale();
+            else
+            {
+                for (int i = 0; i < levelStars; i++)
+                {
+                    hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
+                    hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
+                    hudStar[i].scaleX = hudStar[i].scaleY = hudScale;
+                }
+                LayOutTimeTravelHudStars();
+                UpdateBackgroundScale();
+            }
         }
 
         /// <summary>
