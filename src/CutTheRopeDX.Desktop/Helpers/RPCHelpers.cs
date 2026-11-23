@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CutTheRopeDX.Framework.Core;
 using CutTheRopeDX.Framework.Diagnostics;
 using CutTheRopeDX.Framework.Platform;
+using CutTheRopeDX.GameMain;
 using CutTheRopeDX.Helpers.Discord;
 
 using Microsoft.Extensions.Logging;
@@ -137,7 +138,7 @@ namespace CutTheRopeDX.Helpers
         /// </summary>
         /// <param name="pack">Zero-based pack index.</param>
         /// <param name="level">Zero-based level index within the pack.</param>
-        /// <param name="stars">Number of stars collected (0-3).</param>
+        /// <param name="stars">Number of stars collected.</param>
         /// <param name="isWon">Whether the level has been completed.</param>
         /// <param name="levelName">The optional name of the level.</param>
         /// <param name="score">Final score if the level was won.</param>
@@ -150,7 +151,8 @@ namespace CutTheRopeDX.Helpers
                 return;
             }
 
-            string currentStars = $"⭐ {stars}/3";
+            int levelStars = PackConfig.GetLevelStars(pack, level);
+            string currentStars = $"⭐ {(stars > levelStars ? levelStars : stars)}/{levelStars}";
             string state = currentStars;
 
             if (isWon)
