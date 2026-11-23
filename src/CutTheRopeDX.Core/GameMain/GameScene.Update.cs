@@ -616,11 +616,11 @@ namespace CutTheRopeDX.GameMain
                         _ = aniPool.AddChild(starDisappear);
                         conveyors.Remove(star);
                         _ = stars.Remove(star);
-                        SoundMgr.PlaySound(((starsCollected - 1) % 3) switch
+                        SoundMgr.PlaySound((starsCollected % 3) switch
                         {
-                            0 => Resources.Snd.Star1,
-                            1 => Resources.Snd.Star2,
-                            2 => Resources.Snd.Star3,
+                            0 => Resources.Snd.Star3,
+                            1 => Resources.Snd.Star1,
+                            2 => Resources.Snd.Star2,
                             _ => Resources.Snd.Star1
                         });
                         for (int ti = 0; ti < targets.Count; ti++)
