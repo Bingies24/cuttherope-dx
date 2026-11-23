@@ -343,7 +343,7 @@ namespace CutTheRopeDX.GameMain
                 Scorer.PostAchievementName(nameArray[pack]);
             }
             CheckForBoxPerfect(box, pack);
-            int totalStars = Preferences.GetTotalStars();
+            int totalStars = Preferences.GetTotalEarnedStars();
             if (totalStars is >= 50 and < 150)
             {
                 Scorer.PostAchievementName("677900534", "\"Bronze Scissors\"");

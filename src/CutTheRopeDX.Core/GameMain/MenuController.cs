@@ -1087,7 +1087,7 @@ namespace CutTheRopeDX.GameMain
             baseElement.SetName("boxContainer");
             baseElement.anchor = baseElement.parentAnchor = 12;
             _ = touchBaseElement.AddChild(baseElement);
-            int totalStars = Preferences.GetTotalStarsInBox(PackConfig.GetSaveSlot(n));
+            int totalStars = Preferences.GetTotalEarnedStarsInBox(PackConfig.GetSaveSlot(n));
             if (n > 0 && n < Preferences.GetPacksCount() && Preferences.GetUnlockedForPackLevel(n, 0) == UNLOCKEDSTATE.LOCKED && totalStars >= PackConfig.GetUnlockStars(n))
             {
                 Preferences.SetUnlockedForPackLevel(UNLOCKEDSTATE.JUSTUNLOCKED, n, 0);
@@ -1271,7 +1271,7 @@ namespace CutTheRopeDX.GameMain
             BaseElement baseElement = CreateBackgroundWithLogo(false, VIEW_PACK_SELECT);
             string totalStarsLabel = Application.GetString("TOTAL_STARS").ToString();
             totalStarsLabel = totalStarsLabel.Replace("%d", "");
-            HBox hBox = CreateTextWithStar(totalStarsLabel + Preferences.GetTotalStars().ToString(CultureInfo.InvariantCulture));
+            HBox hBox = CreateTextWithStar(totalStarsLabel + Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture));
             PlaceStarTotal(hBox);
             hBox.SetName("text");
             PackStripLayout strip = PackStrip();
@@ -1671,7 +1671,7 @@ namespace CutTheRopeDX.GameMain
                 _ = menuView.AddChild(shadowImage);
             }
             levelsShadow = MenuTheme.IsTimeTravel ? null : shadowImage;
-            string packStars = Preferences.GetTotalStarsInPack(pack).ToString(CultureInfo.InvariantCulture) + "/" + (Preferences.GetLevelsInPackCount(pack) * 3).ToString(CultureInfo.InvariantCulture);
+            string packStars = Preferences.GetTotalEarnedStarsInPack(pack).ToString(CultureInfo.InvariantCulture) + "/" + Preferences.GetTotalStarsInSinglePack(pack).ToString(CultureInfo.InvariantCulture);
             HBox hBox = MenuTheme.IsExperiments
                 ? CreateExperimentsTextWithStar(packStars)
                 : MenuTheme.IsTimeTravel ? CreateTimeTravelTextWithStar(packStars) : CreateTextWithStar(packStars);

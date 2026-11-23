@@ -55,7 +55,7 @@ namespace CutTheRopeDX.Helpers
             }
 
             string details = "Browsing Menu";
-            string state = $"⭐ Total: {Preferences.GetTotalStars()}";
+            string state = $"⭐ Total: {Preferences.GetTotalEarnedStars()}";
             client.SetActivity(
                 details: details,
                 state: state,

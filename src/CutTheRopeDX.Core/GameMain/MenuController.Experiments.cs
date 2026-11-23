@@ -296,7 +296,7 @@ namespace CutTheRopeDX.GameMain
 
             HBox starTotal = CreateExperimentsTextWithStar(
                 Application.GetString("TOTAL_STARS").ToString().Replace("%d", "", StringComparison.Ordinal)
-                + Preferences.GetTotalStars().ToString(CultureInfo.InvariantCulture));
+                + Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture));
             starTotal.SetName("text");
             starTotal.anchor = starTotal.parentAnchor = 12;
             PlaceStarTotal(starTotal);
@@ -356,7 +356,7 @@ namespace CutTheRopeDX.GameMain
         {
             int packsCount = Preferences.GetPacksCount();
             bool isComingSoon = n >= packsCount;
-            int totalStars = Preferences.GetTotalStarsInBox(PackConfig.GetSaveSlot(n));
+            int totalStars = Preferences.GetTotalEarnedStarsInBox(PackConfig.GetSaveSlot(n));
             if (n > 0 && !isComingSoon && Preferences.GetUnlockedForPackLevel(n, 0) == UNLOCKEDSTATE.LOCKED && totalStars >= PackConfig.GetUnlockStars(n))
             {
                 Preferences.SetUnlockedForPackLevel(UNLOCKEDSTATE.JUSTUNLOCKED, n, 0);

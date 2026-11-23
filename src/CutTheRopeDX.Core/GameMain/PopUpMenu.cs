@@ -24,7 +24,7 @@ namespace CutTheRopeDX.GameMain
         {
             const int textOffset = 20;
             RootController root = Application.SharedRootController();
-            int totalStars = Preferences.GetTotalStars();
+            int totalStars = Preferences.GetTotalEarnedStars();
             string requiredStars = (PackConfig.GetUnlockStars(root.Pack + 1) - totalStars)
                 .ToString(CultureInfo.InvariantCulture);
 
