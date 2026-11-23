@@ -186,17 +186,6 @@ namespace CutTheRopeDX.Framework.Core
         }
 
         /// <summary>
-        /// Gets the number of total stars for a specific level
-        /// </summary>
-        /// <param name="p">The pack index.</param>
-        /// <param name="l">The level index within the pack.</param>
-        /// <returns>The number of stars the level has.</returns>
-        public static int GetStarsForPackLevel(int p, int l)
-        {
-            return PackConfig.GetLevelStars(p, l);
-        }
-
-        /// <summary>
         /// Gets the unlock state of a specific level in a save slot.
         /// </summary>
         /// <param name="box">The save slot index.</param>
@@ -319,7 +308,7 @@ namespace CutTheRopeDX.Framework.Core
             int levelsInPackCount = GetLevelsInPackCount(pack);
             while (i < levelsInPackCount)
             {
-                totalStars += GetStarsForPackLevel(pack, i);
+                totalStars += PackConfig.GetLevelStars(pack, i);
                 i++;
             }
             return totalStars;
@@ -437,7 +426,7 @@ namespace CutTheRopeDX.Framework.Core
             int levelsInPackCount = GetLevelsInPackCount(p);
             while (i < levelsInPackCount)
             {
-                if (GetEarnedStarsForPackLevel(box, p, i) < GetStarsForPackLevel(p, i))
+                if (GetEarnedStarsForPackLevel(box, p, i) < PackConfig.GetLevelStars(p, i))
                 {
                     return false;
                 }

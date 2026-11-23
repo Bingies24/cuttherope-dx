@@ -1553,7 +1553,7 @@ namespace CutTheRopeDX.GameMain
             }
             bool isLocked = Preferences.GetUnlockedForPackLevel(p, l) == UNLOCKEDSTATE.LOCKED;
             int earnedStarsForPackLevel = Preferences.GetEarnedStarsForPackLevel(p, l);
-            int starsForPackLevel = Preferences.GetStarsForPackLevel(p, l);
+            int levelStars = PackConfig.GetLevelStars(p, l);
             TouchBaseElement touchBaseElement = new()
             {
                 bbc = MakeRectangle(5f, 0f, -10f, 0f),
@@ -1577,7 +1577,7 @@ namespace CutTheRopeDX.GameMain
                 text.anchor = text.parentAnchor = 18;
                 text.y -= 5f;
                 _ = image.AddChild(text);
-                if (starsForPackLevel < 4)
+                if (levelStars < 4)
                 {
                     Image starsBadge = Image.FromResource(Resources.Img.MenuLevelUi, 2 + earnedStarsForPackLevel);
                     starsBadge.DoRestoreCutTransparency();
