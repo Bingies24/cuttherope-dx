@@ -41,7 +41,7 @@ namespace CutTheRopeDX.Tests
             (int Score, int Stars, UNLOCKEDSTATE Unlocked)[] progress = new (int, int, UNLOCKEDSTATE)[levels];
             for (int i = 0; i < levels; i++)
             {
-                progress[i] = (Preferences.GetScoreForPackLevel(box, pack, i), Preferences.GetStarsForPackLevel(box, pack, i), Preferences.GetUnlockedForPackLevel(box, pack, i));
+                progress[i] = (Preferences.GetScoreForPackLevel(box, pack, i), Preferences.GetEarnedStarsForPackLevel(box, pack, i), Preferences.GetUnlockedForPackLevel(box, pack, i));
             }
             try
             {
@@ -70,7 +70,7 @@ namespace CutTheRopeDX.Tests
                 for (int i = 0; i < levels; i++)
                 {
                     Preferences.SetScoreForPackLevel(box, progress[i].Score, pack, i);
-                    Preferences.SetStarsForPackLevel(box, progress[i].Stars, pack, i);
+                    Preferences.SetEarnedStarsForPackLevel(box, progress[i].Stars, pack, i);
                     Preferences.SetUnlockedForPackLevel(box, progress[i].Unlocked, pack, i);
                 }
                 Preferences.SetIntForKey(previousSkin, "PREFS_SELECTED_OMNOM", false);
@@ -487,7 +487,7 @@ namespace CutTheRopeDX.Tests
             {
                 using TimeTravelResultScreen screen = new(null);
                 LevelResult result = LevelResultCalculator.Calculate(20f, 2);
-                screen.Show(result, false);
+                screen.Show(result, false, 3);
                 screen.Update(screen.Folds.RootTimeline(0).Duration);
                 screen.Update(0.29f);
                 Assert.Empty(All<MultiParticles>(screen));
@@ -511,7 +511,7 @@ namespace CutTheRopeDX.Tests
                 Step(screen, 0.4f);
                 Assert.Equal(2, All<MultiParticles>(screen).Count);
                 Assert.False(screen.Stars[2].Root.updateable);
-                screen.Show(result, false);
+                screen.Show(result, false, 3);
                 Assert.Empty(All<MultiParticles>(screen));
                 Step(screen, 7f);
                 Assert.Empty(All<MultiParticles>(screen));
@@ -524,7 +524,7 @@ namespace CutTheRopeDX.Tests
             WithTimeTravel(1920, 1080, _ =>
             {
                 using TimeTravelResultScreen screen = new(null);
-                screen.Show(LevelResultCalculator.Calculate(20f, 3), false);
+                screen.Show(LevelResultCalculator.Calculate(20f, 3), false, 3);
                 Step(screen, 2f);
                 foreach (Text text in All<Text>(screen.Overlay))
                 {
@@ -542,7 +542,7 @@ namespace CutTheRopeDX.Tests
             WithTimeTravel(width, height, _ =>
             {
                 using TimeTravelResultScreen screen = new(null);
-                screen.Show(LevelResultCalculator.Calculate(20f, 3), true);
+                screen.Show(LevelResultCalculator.Calculate(20f, 3), true, 3);
                 Step(screen, 6f);
                 Text text = Assert.Single(All<Text>(screen), t => t.Name == "ttResultImprovedText");
                 Assert.Equal(Application.GetString("IMPROVED_RESULT"), text.GetString());
@@ -585,17 +585,17 @@ namespace CutTheRopeDX.Tests
                 const int next = 1;
                 UNLOCKEDSTATE previous = Preferences.GetUnlockedForPackLevel(next, 0);
                 int slot = PackConfig.GetSaveSlot(next);
-                int previousStars = Preferences.GetStarsForPackLevel(slot, 0, 0);
+                int previousStars = Preferences.GetEarnedStarsForPackLevel(slot, 0, 0);
                 int needed = PackConfig.GetUnlockStars(next);
                 try
                 {
                     Preferences.SetUnlockedForPackLevel(UNLOCKEDSTATE.LOCKED, next, 0);
-                    int otherStars = Preferences.GetTotalStarsInBox(slot) - previousStars;
-                    Preferences.SetStarsForPackLevel(slot, needed - otherStars - (enoughStars ? 0 : 1), 0, 0);
+                    int otherStars = Preferences.GetTotalEarnedStarsInBox(slot) - previousStars;
+                    Preferences.SetEarnedStarsForPackLevel(slot, needed - otherStars - (enoughStars ? 0 : 1), 0, 0);
                     BoxOpenClose box = (BoxOpenClose)controller.GetView(0).GetChild(GameView.VIEW_ELEMENT_RESULTS);
                     TimeTravelResultScreen screen = box.TimeTravelResult;
                     LevelResult result = LevelResultCalculator.Calculate(20f, 2);
-                    screen.Show(result, false);
+                    screen.Show(result, false, 3);
                     Step(screen, 1f);
                     BaseElement capsule = screen.GetChildWithName("ttResultNewChapter");
                     Assert.NotNull(capsule);
@@ -615,7 +615,7 @@ namespace CutTheRopeDX.Tests
                         Assert.True(text.width * text.scaleX <= text.parent.width - 16);
                         Assert.True(text.height * text.scaleY <= text.parent.height - 31);
                         Assert.Equal(1, capsule.CurrentTimelineIndex);
-                        screen.Show(result, false);
+                        screen.Show(result, false, 3);
                         Step(screen, 8f);
                         Assert.False(screen.GetChildWithName("ttResultNewChapter").visible);
                     }
@@ -623,7 +623,7 @@ namespace CutTheRopeDX.Tests
                 finally
                 {
                     Preferences.SetUnlockedForPackLevel(previous, next, 0);
-                    Preferences.SetStarsForPackLevel(slot, previousStars, 0, 0);
+                    Preferences.SetEarnedStarsForPackLevel(slot, previousStars, 0, 0);
                 }
             }, width: width, height: height);
         }

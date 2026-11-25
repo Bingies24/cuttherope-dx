@@ -684,11 +684,11 @@ namespace CutTheRopeDX.GameMain
             RGBAColor? ghostGrabColor = ParseNullableColorProperty(packElement, "ghostGrabColor");
 
             int[] levelStars = new int[levelCount];
-            int levelStarsDefault = ParseIntProperty(packElement, "levelStars", 3, packListEntry.ConfigFileName);
+            int levelStarsDefault = ParseIntProperty(packElement, "levelStars", 3, fileName);
 
             for (int i = 0; i < levelStars.Length; i++)
             {
-                levelStars[i] = ParseIntProperty(packElement, "level" + (i + 1) + "Stars", levelStarsDefault, packListEntry.ConfigFileName);
+                levelStars[i] = ParseIntProperty(packElement, "level" + (i + 1) + "Stars", levelStarsDefault, fileName);
             }
 
             return new PackDefinition(

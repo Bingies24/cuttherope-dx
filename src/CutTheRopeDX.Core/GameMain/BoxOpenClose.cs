@@ -481,7 +481,8 @@ namespace CutTheRopeDX.GameMain
         /// Starts the closing transition for a won level and prepares the result panel countdown.
         /// </summary>
         /// <param name="levelResult">The immutable result that drives the presentation.</param>
-        public void LevelWon(LevelResult levelResult)
+        /// <param name="levelStars">The amount of collectible stars in a level.</param>
+        public void LevelWon(LevelResult levelResult, int levelStars)
         {
             ActiveResult = levelResult;
             boxAnim = 2;
@@ -490,7 +491,7 @@ namespace CutTheRopeDX.GameMain
             if (TimeTravelResult != null)
             {
                 // The blind shuts over the level in place of the box.
-                TimeTravelResult.Show(levelResult, shouldShowImprovedResult);
+                TimeTravelResult.Show(levelResult, shouldShowImprovedResult, levelStars);
                 return;
             }
             ShowCloseAnim();

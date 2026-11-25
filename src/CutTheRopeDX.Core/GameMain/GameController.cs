@@ -444,7 +444,7 @@ namespace CutTheRopeDX.GameMain
                     gameScene,
                     0.5f);
             };
-            boxOpenClose.LevelWon(result);
+            boxOpenClose.LevelWon(result, gameScene.levelStars);
 
             // Update RPC to show win state with stars and score
             LevelResultRpcPayload rpcPayload = LevelResultRpcPayload.From(result);

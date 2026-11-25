@@ -304,7 +304,7 @@ namespace CutTheRopeDX.GameMain
             scene.Layout(screen);
 
             HBox starTotal = CreateTimeTravelTextWithStar(
-                Preferences.GetTotalStars().ToString(CultureInfo.InvariantCulture) + "/" + TimeTravelMaxStars().ToString(CultureInfo.InvariantCulture));
+                Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture) + "/" + Preferences.GetTotalStarsInSinglePack(pack).ToString(CultureInfo.InvariantCulture));
             starTotal.SetName("text");
             starTotal.anchor = starTotal.parentAnchor = 12;
             PlaceStarTotal(starTotal);
@@ -462,7 +462,7 @@ namespace CutTheRopeDX.GameMain
         /// <returns>The page.</returns>
         private static TimeTravelPackPage CreateTimeTravelPackPage(int n)
         {
-            int stars = Preferences.GetTotalStarsInBox(PackConfig.GetSaveSlot(n));
+            int stars = Preferences.GetTotalEarnedStarsInBox(PackConfig.GetSaveSlot(n));
             int needed = PackConfig.GetUnlockStars(n);
             if (n > 0 && Preferences.GetUnlockedForPackLevel(n, 0) == UNLOCKEDSTATE.LOCKED && stars >= needed)
             {
@@ -1025,12 +1025,16 @@ namespace CutTheRopeDX.GameMain
                 Rectangle starsBox = TimeTravelArt.LevelMarkers.Stars;
                 Rectangle numberBox = TimeTravelArt.LevelMarkers.Number;
                 float c = TimeTravelArt.CanvasToAsset;
-                int stars = Math.Clamp(Preferences.GetStarsForPackLevel(p, l), 0, 3);
-                Image starStrip = Image.FromResource(sheet, TimeTravelArt.LevelStars + stars);
-                starStrip.anchor = starStrip.parentAnchor = 9;
-                starStrip.x = (starsBox.x - plateBox.x) * c;
-                starStrip.y = (starsBox.y - plateBox.y) * c;
-                _ = plate.AddChild(starStrip);
+                int levelStars = PackConfig.GetLevelStars(p, l);
+                if (levelStars < 4)
+                {
+                    int stars = Math.Clamp(Preferences.GetEarnedStarsForPackLevel(p, l), 0, 3);
+                    Image starStrip = Image.FromResource(sheet, TimeTravelArt.LevelStars + stars);
+                    starStrip.anchor = starStrip.parentAnchor = 9;
+                    starStrip.x = (starsBox.x - plateBox.x) * c;
+                    starStrip.y = (starsBox.y - plateBox.y) * c;
+                    _ = plate.AddChild(starStrip);
+                }
                 Text number = new Text().InitWithFont(Application.GetFont(Resources.Fnt.BigFont));
                 number.SetString((l + 1).ToString(CultureInfo.InvariantCulture));
                 number.anchor = 18;

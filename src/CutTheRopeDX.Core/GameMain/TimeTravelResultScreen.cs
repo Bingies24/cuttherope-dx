@@ -151,7 +151,8 @@ namespace CutTheRopeDX.GameMain
         /// <summary>Shows the result of a level that was just won.</summary>
         /// <param name="levelResult">The level's result.</param>
         /// <param name="improvedResult">Whether it beat the level's best.</param>
-        public void Show(LevelResult levelResult, bool improvedResult)
+        /// <param name="levelStars">The amount of collectible stars in a level.</param>
+        public void Show(LevelResult levelResult, bool improvedResult, int levelStars)
         {
             result = levelResult;
             shown = true;
@@ -216,10 +217,10 @@ namespace CutTheRopeDX.GameMain
 
             passText.SetString(Application.GetString(levelResult.StarsCollected switch
             {
-                1 => "LEVEL_CLEARED2",
-                2 => "LEVEL_CLEARED3",
-                3 => "LEVEL_CLEARED4",
-                _ => "LEVEL_CLEARED1",
+                int s when s >= levelStars => "LEVEL_CLEARED4",
+                int s when s >= levelStars * (2f / 3) => "LEVEL_CLEARED3",
+                int s when s >= levelStars / 3 => "LEVEL_CLEARED2",
+                _ => "LEVEL_CLEARED1"
             }));
             CountTitle.SetString(string.Empty);
             dataValue.SetString(string.Empty);
@@ -603,7 +604,7 @@ namespace CutTheRopeDX.GameMain
             int next = completedPack + 1;
             if (!allowChapterUnlock || next >= Preferences.GetPacksCount()
                 || Preferences.GetUnlockedForPackLevel(next, 0) != UNLOCKEDSTATE.LOCKED
-                || Preferences.GetTotalStarsInBox(PackConfig.GetSaveSlot(next)) < PackConfig.GetUnlockStars(next))
+                || Preferences.GetTotalEarnedStarsInBox(PackConfig.GetSaveSlot(next)) < PackConfig.GetUnlockStars(next))
             {
                 return;
             }

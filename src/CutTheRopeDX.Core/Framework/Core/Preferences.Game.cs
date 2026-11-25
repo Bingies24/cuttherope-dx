@@ -274,10 +274,8 @@ namespace CutTheRopeDX.Framework.Core
         /// <returns>The total star count.</returns>
         public static int GetTotalEarnedStarsInBox(int box)
         {
-            int totalStars = 0;
-            int i = 0;
-            int packsCount = GetPacksCount();
-            while (i < packsCount)
+            int total = 0;
+            for (int i = 0; i < GetPacksCount(); i++)
             {
                 if (PackConfig.GetSaveSlot(i) != box)
                 {
@@ -289,12 +287,11 @@ namespace CutTheRopeDX.Framework.Core
                 int levelsInPackCount = GetLevelsInPackCount(i);
                 while (j < levelsInPackCount)
                 {
-                    totalStars += GetEarnedStarsForPackLevel(box, i, j);
+                    total += GetEarnedStarsForPackLevel(box, i, j);
                     j++;
                 }
-                i++;
             }
-            return totalStars;
+            return total;
         }
 
         /// <summary>
@@ -304,12 +301,10 @@ namespace CutTheRopeDX.Framework.Core
         public static int GetTotalStarsInSinglePack(int pack)
         {
             int totalStars = 0;
-            int i = 0;
             int levelsInPackCount = GetLevelsInPackCount(pack);
-            while (i < levelsInPackCount)
+            for (int i = 0; i < levelsInPackCount; i++)
             {
                 totalStars += PackConfig.GetLevelStars(pack, i);
-                i++;
             }
             return totalStars;
         }
@@ -422,24 +417,22 @@ namespace CutTheRopeDX.Framework.Core
         /// <returns><see langword="true"/> if all levels have the required stars; otherwise, <see langword="false"/>.</returns>
         public static bool IsPackPerfect(int box, int p)
         {
-            int i = 0;
             int levelsInPackCount = GetLevelsInPackCount(p);
-            while (i < levelsInPackCount)
+            for (int i = 0; i < levelsInPackCount; i++)
             {
                 if (GetEarnedStarsForPackLevel(box, p, i) < PackConfig.GetLevelStars(p, i))
                 {
                     return false;
                 }
-                i++;
             }
             return true;
         }
 
         /// <summary>
-        /// Returns whether every level in the pack has 3 stars, using the pack's default save slot.
+        /// Returns whether every level in the pack has all stars, using the pack's default save slot.
         /// </summary>
         /// <param name="p">The pack index.</param>
-        /// <returns><see langword="true"/> if all levels have 3 stars; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/> if all levels have all stars; otherwise, <see langword="false"/>.</returns>
         public static bool IsPackPerfect(int p)
         {
             return IsPackPerfect(PackConfig.GetSaveSlot(p), p);

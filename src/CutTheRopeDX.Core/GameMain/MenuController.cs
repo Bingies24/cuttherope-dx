@@ -1672,7 +1672,7 @@ namespace CutTheRopeDX.GameMain
                 _ = menuView.AddChild(shadowImage);
             }
             levelsShadow = MenuTheme.IsTimeTravel ? null : shadowImage;
-            string packStars = Preferences.GetTotalEarnedStarsInPack(pack).ToString(CultureInfo.InvariantCulture) + "/" + Preferences.GetTotalStarsInSinglePack(pack).ToString(CultureInfo.InvariantCulture);
+            string packStars = Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture) + "/" + Preferences.GetTotalStarsInSinglePack(pack).ToString(CultureInfo.InvariantCulture);
             HBox hBox = MenuTheme.IsExperiments
                 ? CreateExperimentsTextWithStar(packStars)
                 : MenuTheme.IsTimeTravel ? CreateTimeTravelTextWithStar(packStars) : CreateTextWithStar(packStars);
