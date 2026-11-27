@@ -304,7 +304,8 @@ namespace CutTheRopeDX.GameMain
         /// </summary>
         private void InitializeHUDStars()
         {
-            bool useExpandedStarHUD = false;
+            float hudScale = ContentScale;
+            bool useExpandedStarHud = false;
             if (hudStar != null)
             {
                 for (int i = 0; i < hudStar.Length; i++)
@@ -322,25 +323,29 @@ namespace CutTheRopeDX.GameMain
                     }
                 }
             }
-            if (levelStars > 5)
+            if (levelStars > levelStarsClassicHudMax)
             {
-                useExpandedStarHUD = true;
+                useExpandedStarHud = true;
             }
 
-            hudStar = new Animation[useExpandedStarHUD ? 1 : levelStars];
-            for (int i = 0; i < (useExpandedStarHUD ? 1 : levelStars); i++)
+            hudStar = new Animation[useExpandedStarHud ? 1 : levelStars];
+            for (int i = 0; i < (useExpandedStarHud ? 1 : levelStars); i++)
             {
                 const int HudUiStarFirstQuad = 1;
                 const int HudUiStarLastQuad = 11;
                 hudStar[i] = Image.InitializeFromResource(new Animation(), Resources.Img.HudUi);
-                hudStar[i].SetDrawQuad(HudUiStarFirstQuad);
-                _ = hudStar[i].AddAnimationDelayLoopFirstLast(0.05f, Timeline.LoopType.TIMELINE_NO_LOOP, HudUiStarFirstQuad, HudUiStarLastQuad);
-                hudStar[i].SetPauseAtIndexforAnimation(10, 0);
+                hudStar[i].SetDrawQuad(useExpandedStarHud ? HudUiStarLastQuad : HudUiStarFirstQuad);
+                if (!useExpandedStarHud)
+                {
+                    _ = hudStar[i].AddAnimationDelayLoopFirstLast(0.05f, Timeline.LoopType.TIMELINE_NO_LOOP, HudUiStarFirstQuad, HudUiStarLastQuad);
+                    hudStar[i].SetPauseAtIndexforAnimation(10, 0);
+                }
                 hudStarSlotWidth = hudStar[i].width;
                 hudStarSlotHeight = hudStar[i].height;
                 hudStar[i].anchor = 18;
-                hudStar[i].x = (hudStarSlotWidth * i) + (hudStarSlotWidth / 2);
-                hudStar[i].y = hudStarSlotHeight / 2;
+                hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
+                hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
+                hudStar[i].scaleX = hudStar[i].scaleY = hudScale;
                 _ = AddChild(hudStar[i]);
             }
 
@@ -354,5 +359,23 @@ namespace CutTheRopeDX.GameMain
             }
         }
 
+        /// <summary>
+        /// Initializes HUD stars label
+        /// </summary>
+        private void InitializeStarsLabel()
+        {
+            if (starsLabel != null)
+            {
+                starsLabel = null;
+            }
+
+            if (levelStars > levelStarsClassicHudMax)
+            {
+                starsLabel = Text.CreateWithFontandString(Resources.Fnt.BigFont, $"0/{levelStars}");
+                starsLabel.anchor = 9;
+                SetStarsLabelPositionAndScale();
+                _ = staticAniPool.AddChild(starsLabel);
+            }
+        }
     }
 }

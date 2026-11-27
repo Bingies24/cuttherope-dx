@@ -600,7 +600,16 @@ namespace CutTheRopeDX.GameMain
                         starsCollected++;
                         // Update RPC with new star count
                         PlatformServices.RichPresence?.SetLevelPresence(root.Pack, root.Level, starsCollected, false, levelName);
-                        if (hudStar != null && starsCollected <= hudStar.Length)
+                        if (levelStars > levelStarsClassicHudMax)
+                        {
+                            if (hudStar != null && starsCollected == levelStars)
+                            {
+                                hudStar[0].PlayTimeline(0);
+                                FillTimeTravelHudStar(0);
+                            }
+                            starsLabel?.SetString($"{starsCollected}/{levelStars}");
+                        }
+                        else if (hudStar != null && starsCollected <= hudStar.Length)
                         {
                             hudStar[starsCollected - 1].PlayTimeline(0);
                             FillTimeTravelHudStar(starsCollected - 1);

@@ -149,6 +149,17 @@ namespace CutTheRopeDX.GameMain
             }
         }
 
+        private void SetTimeTravelStarsLabelPositionAndScale()
+        {
+            if (starsLabel != null)
+            {
+                TimeTravelScreen screen = new(VisibleBounds);
+                starsLabel.x = TimeTravelHudStars.Length * TimeTravelArt.HudMarkers.StarStep / 2f * screen.Scale;
+                starsLabel.y = 4.85f * screen.Scale;
+                starsLabel.sizeScale = 0.60f * screen.Scale;
+            }
+        }
+
         /// <summary>
         /// Strikes the level-opening lightning from the visible top right and bottom left, as iOS
         /// does on every level but a pack's first, which opens with the spiral instead.

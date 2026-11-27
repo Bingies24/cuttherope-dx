@@ -19,6 +19,7 @@ namespace CutTheRopeDX.GameMain
             InitializeGameState();
             InitializeCandyObjects();
             InitializeHUDStars();
+            InitializeStarsLabel();
             ResetTimeTravelSpiral();
             timeTravelArrivalPending = MenuTheme.IsTimeTravel
                 && RootController.IsShowGreeting()

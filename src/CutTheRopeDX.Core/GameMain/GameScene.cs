@@ -272,6 +272,25 @@ namespace CutTheRopeDX.GameMain
             RelayoutHud();
         }
 
+        ///
+        public void SetStarsLabelPositionAndScale()
+        {
+            float hudScale = ContentScale;
+            if (starsLabel != null)
+            {
+                if (MenuTheme.IsTimeTravel)
+                {
+                    SetTimeTravelStarsLabelPositionAndScale();
+                }
+                else
+                {
+                    starsLabel.x = ((hudStarSlotWidth * hudStar.Length) + 8) * hudScale;
+                    starsLabel.y = (0 + MathF.Abs(hudStarSlotHeight - starsLabel.font.FontHeight()) - 7) * hudScale;
+                    starsLabel.sizeScale = 1 * hudScale;
+                }
+            }
+        }
+
         /// <summary>
         /// Places the in-game chrome for the current viewport.
         /// </summary>
@@ -291,17 +310,17 @@ namespace CutTheRopeDX.GameMain
         public void RelayoutHud()
         {
             float hudScale = ContentScale;
-            bool useExpandedStarHUD = false;
+            bool useExpandedStarHud = false;
             PlaceLevelLabel();
 
-            if (levelStars > 5)
+            if (levelStars > levelStarsClassicHudMax)
             {
-                useExpandedStarHUD = true;
+                useExpandedStarHud = true;
             }
 
             if (hudStar != null)
             {
-                for (int i = 0; i < (useExpandedStarHUD ? 1 : levelStars); i++)
+                for (int i = 0; i < (useExpandedStarHud ? 1 : levelStars); i++)
                 {
                     hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
                     hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
@@ -309,6 +328,7 @@ namespace CutTheRopeDX.GameMain
                 }
                 LayOutTimeTravelHudStars();
             }
+            SetStarsLabelPositionAndScale();
             UpdateBackgroundScale();
         }
 
@@ -1326,6 +1346,8 @@ namespace CutTheRopeDX.GameMain
         /// </summary>
         private int hudStarSlotHeight;
 
+        private Text starsLabel;
+
         /// <summary>
         /// The gameplay camera.
         /// </summary>
@@ -1513,6 +1535,11 @@ namespace CutTheRopeDX.GameMain
         /// The total amount of stars the current level has.
         /// </summary>
         public int levelStars;
+
+        /// <summary>
+        /// The maximum amount of stars the classic HUD should be used for.
+        /// </summary>
+        public int levelStarsClassicHudMax = 5;
 
         // private sealed class SCandy : ConstrainedPoint
         // {
