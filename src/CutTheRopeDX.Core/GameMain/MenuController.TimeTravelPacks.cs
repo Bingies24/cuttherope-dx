@@ -304,7 +304,7 @@ namespace CutTheRopeDX.GameMain
             scene.Layout(screen);
 
             HBox starTotal = CreateTimeTravelTextWithStar(
-                Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture) + "/" + Preferences.GetTotalStarsInSinglePack(pack).ToString(CultureInfo.InvariantCulture));
+                Preferences.GetTotalEarnedStars().ToString(CultureInfo.InvariantCulture) + "/" + TimeTravelMaxStars().ToString(CultureInfo.InvariantCulture));
             starTotal.SetName("text");
             starTotal.anchor = starTotal.parentAnchor = 12;
             PlaceStarTotal(starTotal);
@@ -954,7 +954,7 @@ namespace CutTheRopeDX.GameMain
             int total = 0;
             for (int i = 0; i < Preferences.GetPacksCount(); i++)
             {
-                total += Preferences.GetLevelsInPackCount(i) * 3;
+                total += Preferences.GetTotalStarsInSinglePack(i);
             }
             return total;
         }
