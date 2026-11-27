@@ -304,6 +304,7 @@ namespace CutTheRopeDX.GameMain
         /// </summary>
         private void InitializeHUDStars()
         {
+            bool useExpandedStarHUD = false;
             if (hudStar != null)
             {
                 for (int i = 0; i < hudStar.Length; i++)
@@ -311,29 +312,46 @@ namespace CutTheRopeDX.GameMain
                     RemoveChild(hudStar[i]);
                 }
             }
-            if (levelStars > 5)
+            if (TimeTravelHudStars != null)
             {
-            }
-            else
-            {
-                hudStar = new Animation[levelStars];
-                for (int i = 0; i < levelStars; i++)
+                for (int i = 0; i < TimeTravelHudStars.Length; i++)
                 {
-                    const int HudUiStarFirstQuad = 1;
-                    const int HudUiStarLastQuad = 11;
-                    hudStar[i] = Image.InitializeFromResource(new Animation(), Resources.Img.HudUi);
-                    hudStar[i].SetDrawQuad(HudUiStarFirstQuad);
-                    _ = hudStar[i].AddAnimationDelayLoopFirstLast(0.05f, Timeline.LoopType.TIMELINE_NO_LOOP, HudUiStarFirstQuad, HudUiStarLastQuad);
-                    hudStar[i].SetPauseAtIndexforAnimation(10, 0);
-                    hudStarSlotWidth = hudStar[i].width;
-                    hudStarSlotHeight = hudStar[i].height;
-                    hudStar[i].anchor = 18;
-                    hudStar[i].x = (hudStarSlotWidth * i) + (hudStarSlotWidth / 2);
-                    hudStar[i].y = hudStarSlotHeight / 2;
-                    _ = AddChild(hudStar[i]);
+                    if (TimeTravelHudStars[i] != null)
+                    {
+                        RemoveChild(TimeTravelHudStars[i].Root);
+                    }
                 }
             }
-            ResetTimeTravelHudStars();
+            if (levelStars > 5)
+            {
+                useExpandedStarHUD = true;
+            }
+
+            hudStar = new Animation[useExpandedStarHUD ? 1 : levelStars];
+            for (int i = 0; i < (useExpandedStarHUD ? 1 : levelStars); i++)
+            {
+                const int HudUiStarFirstQuad = 1;
+                const int HudUiStarLastQuad = 11;
+                hudStar[i] = Image.InitializeFromResource(new Animation(), Resources.Img.HudUi);
+                hudStar[i].SetDrawQuad(HudUiStarFirstQuad);
+                _ = hudStar[i].AddAnimationDelayLoopFirstLast(0.05f, Timeline.LoopType.TIMELINE_NO_LOOP, HudUiStarFirstQuad, HudUiStarLastQuad);
+                hudStar[i].SetPauseAtIndexforAnimation(10, 0);
+                hudStarSlotWidth = hudStar[i].width;
+                hudStarSlotHeight = hudStar[i].height;
+                hudStar[i].anchor = 18;
+                hudStar[i].x = (hudStarSlotWidth * i) + (hudStarSlotWidth / 2);
+                hudStar[i].y = hudStarSlotHeight / 2;
+                _ = AddChild(hudStar[i]);
+            }
+
+            if (MenuTheme.IsTimeTravel)
+            {
+                CreateTimeTravelHudStars();
+                foreach (Animation star in hudStar)
+                {
+                    star.visible = false;
+                }
+            }
         }
 
     }

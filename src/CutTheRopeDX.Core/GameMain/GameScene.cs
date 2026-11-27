@@ -291,22 +291,25 @@ namespace CutTheRopeDX.GameMain
         public void RelayoutHud()
         {
             float hudScale = ContentScale;
+            bool useExpandedStarHUD = false;
             PlaceLevelLabel();
 
             if (levelStars > 5)
             {
+                useExpandedStarHUD = true;
             }
-            else
+
+            if (hudStar != null)
             {
-                for (int i = 0; i < levelStars; i++)
+                for (int i = 0; i < (useExpandedStarHUD ? 1 : levelStars); i++)
                 {
                     hudStar[i].x = ((hudStarSlotWidth * i) + (hudStarSlotWidth / 2)) * hudScale;
                     hudStar[i].y = hudStarSlotHeight / 2f * hudScale;
                     hudStar[i].scaleX = hudStar[i].scaleY = hudScale;
                 }
                 LayOutTimeTravelHudStars();
-                UpdateBackgroundScale();
             }
+            UpdateBackgroundScale();
         }
 
         /// <summary>
