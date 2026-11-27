@@ -517,6 +517,12 @@ namespace CutTheRopeDX.GameMain
             return -1;
         }
 
+        /// <summary>
+        /// Gets the amount of stars that can be collected in a specific level.
+        /// </summary>
+        /// <param name="pack">Target pack index.</param>
+        /// <param name="level">Target level index.</param>
+        /// <returns>The amount of stars.</returns>
         public static int GetLevelStars(int pack, int level)
         {
             return pack >= 0 && pack < packs.Count ? packs[pack].LevelStars[level] : 3;

@@ -1022,18 +1022,36 @@ namespace CutTheRopeDX.GameMain
             if (!locked)
             {
                 Rectangle plateBox = TimeTravelArt.LevelMarkers.Plate;
-                Rectangle starsBox = TimeTravelArt.LevelMarkers.Stars;
                 Rectangle numberBox = TimeTravelArt.LevelMarkers.Number;
                 float c = TimeTravelArt.CanvasToAsset;
                 int levelStars = PackConfig.GetLevelStars(p, l);
                 if (levelStars < 4)
                 {
+                    Rectangle starsBox = TimeTravelArt.LevelMarkers.Stars;
                     int stars = Math.Clamp(Preferences.GetEarnedStarsForPackLevel(p, l), 0, 3);
                     Image starStrip = Image.FromResource(sheet, TimeTravelArt.LevelStars + stars);
                     starStrip.anchor = starStrip.parentAnchor = 9;
                     starStrip.x = (starsBox.x - plateBox.x) * c;
                     starStrip.y = (starsBox.y - plateBox.y) * c;
                     _ = plate.AddChild(starStrip);
+                }
+                else
+                {
+                    Rectangle starsBox = TimeTravelArt.LevelMarkers.Star;
+                    int stars = Preferences.GetEarnedStarsForPackLevel(p, l);
+                    Image starGraphic = Image.FromResource(sheet, TimeTravelArt.SingleLevelStar + (stars == levelStars ? 1 : 0));
+                    starGraphic.anchor = starGraphic.parentAnchor = 9;
+                    starGraphic.x = (starsBox.x - plateBox.x) * c;
+                    starGraphic.y = (starsBox.y - plateBox.y) * c;
+                    Text starsNumber = new Text().InitWithFont(Application.GetFont(Resources.Fnt.BigFont));
+                    starsNumber.SetString(stars.ToString(CultureInfo.InvariantCulture));
+                    starsNumber.scaleX = starsNumber.scaleY = c;
+                    starsNumber.anchor = starsNumber.parentAnchor = 18;
+                    starsNumber.width = (int)(starsNumber.width * c);
+                    starsNumber.x -= (starsNumber.width / 2f) + (starGraphic.width / 2f) + 7;
+                    starsNumber.y += 8;
+                    _ = starGraphic.AddChild(starsNumber);
+                    _ = plate.AddChild(starGraphic);
                 }
                 Text number = new Text().InitWithFont(Application.GetFont(Resources.Fnt.BigFont));
                 number.SetString((l + 1).ToString(CultureInfo.InvariantCulture));

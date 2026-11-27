@@ -203,6 +203,9 @@ namespace CutTheRopeDX.GameMain
         /// <summary>Level sheet: no stars won; one more star per quad up to three (iOS q3 to q6).</summary>
         public const int LevelStars = 3;
 
+        /// <summary>Level sheet: an empty star, with a filled one in the next quad.</summary>
+        public const int SingleLevelStar = 18;
+
         /// <summary>
         /// The pack page whose background and tint the coming-soon page takes: page 14, the one
         /// iOS gives it when the snowflake page is not shown.
@@ -272,6 +275,9 @@ namespace CutTheRopeDX.GameMain
 
             /// <summary>The star strip (iOS q3).</summary>
             public static readonly Rectangle Stars = new(285f, 540f, 163f, 84f);
+
+            // <summary>A single star for levels with over three.</summary>
+            public static readonly Rectangle Star = new(362f, 540f, 87f, 84f);
 
             /// <summary>Where the level number is centered (iOS q8).</summary>
             public static readonly Rectangle Number = new(336f, 474f, 10f, 10f);
