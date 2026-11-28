@@ -82,19 +82,19 @@ namespace CutTheRopeDX.GameMain
         internal IReadOnlyList<TargetContext> Targets => targets;
 
         /// <summary>Builds the Time Travel HUD stars in place of the classic ones.</summary>
-        private void CreateTimeTravelHudStars()
+        private void CreateTimeTravelHudStars(bool useExpandedStarHud)
         {
             foreach (Animation star in hudStar)
             {
                 star.visible = false;
             }
-            timeTravelHudStarDefinition = TimeTravelFlashStage.Load(TimeTravelArt.HudStarAnimationXml);
+            timeTravelHudStarDefinition = TimeTravelFlashStage.Load(useExpandedStarHud ? TimeTravelArt.HudStarSingleXml : TimeTravelArt.HudStarAnimationXml);
             TimeTravelHudStars = new TimeTravelFlashStage[hudStar.Length];
-            ResetTimeTravelHudStars();
+            ResetTimeTravelHudStars(useExpandedStarHud);
         }
 
         /// <summary>Puts every HUD star back to empty, rebuilding each at its first pose.</summary>
-        private void ResetTimeTravelHudStars()
+        private void ResetTimeTravelHudStars(bool useExpandedStarHud)
         {
             if (TimeTravelHudStars == null)
             {
@@ -115,7 +115,7 @@ namespace CutTheRopeDX.GameMain
                 star.Play(0);
                 star.Root.updateable = false;
             }
-            Image empty = TimeTravelHudStars[0].Part("star_empty");
+            Image empty = useExpandedStarHud ? TimeTravelHudStars[0].Part("star_collected") : TimeTravelHudStars[0].Part("star_empty");
             timeTravelHudStarOrigin = new Vector(empty.x, empty.y);
             LayOutTimeTravelHudStars();
         }

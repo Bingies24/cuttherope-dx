@@ -351,7 +351,7 @@ namespace CutTheRopeDX.GameMain
 
             if (MenuTheme.IsTimeTravel)
             {
-                CreateTimeTravelHudStars();
+                CreateTimeTravelHudStars(useExpandedStarHud);
                 foreach (Animation star in hudStar)
                 {
                     star.visible = false;

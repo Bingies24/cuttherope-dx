@@ -286,6 +286,9 @@ namespace CutTheRopeDX.GameMain
         /// <summary>The HUD's star counter, one star a copy (iOS <c>hud.pb</c>).</summary>
         public const string HudStarAnimationXml = "hud_timetravel.xml";
 
+        /// <summary>A single filled star for the HUD's expanded star counter.</summary>
+        public const string HudStarSingleXml = "hud_timetravel_single.xml";
+
         /// <summary>The lightning that strikes as a level opens (iOS <c>fx_restart.pb</c>).</summary>
         public const string LightningAnimationXml = "fx_restart_timetravel.xml";
 
